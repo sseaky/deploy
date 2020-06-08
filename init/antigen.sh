@@ -1,7 +1,7 @@
 # @Author: Seaky
 # @Date:   2019-06-26 16:41:32
 # @Last Modified by:   Seaky
-# @Last Modified time: 2020-06-08 14:45:27
+# @Last Modified time: 2020-06-08 14:56:23
 
 # wget --no-proxy -qO - https://raw.githubusercontent.com/sseaky/common/master/init/antigen.sh | bash && zsh
 # wget --no-proxy -qO - https://raw.githubusercontent.com/sseaky/common/master/init/antigen.sh | bash -s -- -w && zsh
@@ -32,11 +32,11 @@ wget -qO ~/.zsh_alias $SERVER/zsh_alias
 
 if [ $wakatime_enable ];then
     [[ ! -f ~/.wakatime.cfg ]] && cat > ~/.wakatime.cfg << EOF
-    [settings]
-    debug = false
-    api_key = 34635c0a-17cc-44a1-97b8-a1b08ab8e046
-    hostname = $(hostname)
-    EOF
+[settings]
+debug = false
+api_key = 
+hostname = $(hostname)
+EOF
     pip install wakatime
     wget -qO ~/.wakatime.cfg $SERVER/wakatime.cfg
     sed -ir "s/hostname = NocTest/hostname = $(hostname)/" ~/.wakatime.cfg
