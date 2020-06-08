@@ -1,12 +1,11 @@
 # @Author: Seaky
 # @Date:   2019-06-26 16:41:32
 # @Last Modified by:   Seaky
-# @Last Modified time: 2020-06-08 14:56:23
+# @Last Modified time: 2020-06-08 15:30:27
 
 # wget --no-proxy -qO - https://raw.githubusercontent.com/sseaky/common/master/init/antigen.sh | bash && zsh
 # wget --no-proxy -qO - https://raw.githubusercontent.com/sseaky/common/master/init/antigen.sh | bash -s -- -w && zsh
 #
-export SERVER="https://raw.githubusercontent.com/sseaky/common/master/init"
 
 while getopts "w" arg
 do
@@ -21,9 +20,12 @@ do
     esac
 done
 
+export SERVER="https://raw.githubusercontent.com/sseaky/common/master/init"
+
 sudo apt install -y zsh git
 
-curl -L git.io/antigen > ~/.antigen.zsh
+# https://raw.githubusercontent.com/zsh-users/antigen/master/bin/antigen.zsh
+wget -O ~/.antigen.zsh git.io/antigen
 sed -ir 's#ANTIGEN_INSTALL_DIR/antigen.zsh#ANTIGEN_INSTALL_DIR/.antigen.zsh#' ~/.antigen.zsh
 
 wget -qO ~/.zshrc $SERVER/antigen_zshrc
