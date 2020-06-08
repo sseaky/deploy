@@ -1,0 +1,97 @@
+# @Author: Seaky
+# @Date:   2019-06-26
+
+source ~/.antigen.zsh
+
+# Load the oh-my-zsh's library.
+antigen use oh-my-zsh
+# Bundles from the default repo (robbyrussell's oh-my-zsh).
+antigen bundle git 
+antigen bundle heroku
+antigen bundle pip 
+antigen bundle lein
+antigen bundle command-not-found
+antigen bundle colored-man-pages
+antigen bundle autojump
+
+# antigen bundle battery    # '$(battery_pct_prompt)'
+antigen bundle cp
+antigen bundle encode64
+antigen bundle extract
+# antigen bundle git-prompt
+antigen bundle history
+antigen bundle httpie
+antigen bundle man 
+antigen bundle nmap
+# antigen bundle ssh-agent
+antigen bundle sudo
+# antigen bundle themes
+
+# Syntax highlighting bundle.
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle zsh-users/zsh-completions
+# antigen bundle wbingli/zsh-wakatime
+# antigen bundle sobolevn/wakatime-zsh-plugin
+# Load the theme.
+antigen theme robbyrussell
+# Tell Antigen that you're done.
+antigen apply
+
+
+DISABLE_AUTO_TITLE="true"
+DISABLE_AUTO_UPDATE="true"
+
+setopt PROMPT_SUBST
+pwd_limit=50
+short_pwd()
+{
+PWD1=${PWD#${HOME}}
+if [[ ${#PWD1} -le ${pwd_limit} ]]; then
+    echo '%1|%~'
+else
+    echo "...${PWD1:${#PWD1}-${pwd_limit}+3:${pwd_limit}-3}"
+fi
+}
+export PROMPT='%{$fg[yellow]%}%n%{$reset_color%}@%{$fg[cyan]%}%m%{$reset_color%} %{$fg[blue]%}$(short_pwd)%{$reset_color%} $(git_prompt_info)'
+# export PROMPT='%{$fg[yellow]%}%n%{$reset_color%}@%{$fg[cyan]%}%m%{$reset_color%} %{$fg[blue]%}%1|%~%{$reset_color%} $(git_prompt_info)'
+
+# server prompt
+# export PROMPT='%{$fg[yellow]%}%n%{$reset_color%}@%{$fg[cyan]%}%{$bg[red]%}$(short_pwd)%{$reset_color%} %{$fg[blue]%}%1|%~%{$reset_color%} $(git_prompt_info)'
+
+export RPROMPT='%{$fg_bold[yellow]%}%?%{$reset_color%} %{$fg[red]%}%*%{$reset_color%}'
+
+export PATH=$PATH:/sbin:/usr/sbin
+export TERM=xterm-256color
+export LANG=zh_CN.UTF-8
+
+# Fix numeric keypad
+# 0 . Enter
+bindkey -s "^[Op" "0"
+bindkey -s "^[On" "."
+bindkey -s "^[OM" "^M"
+# 1 2 3
+bindkey -s "^[Oq" "1"
+bindkey -s "^[Or" "2"
+bindkey -s "^[Os" "3"
+# 4 5 6
+bindkey -s "^[Ot" "4"
+bindkey -s "^[Ou" "5"
+bindkey -s "^[Ov" "6"
+# 7 8 9
+bindkey -s "^[Ow" "7"
+bindkey -s "^[Ox" "8"
+bindkey -s "^[Oy" "9"
+# + - * /
+bindkey -s "^[Ol" "+"
+bindkey -s "^[Om" "-"
+bindkey -s "^[Oj" "*"
+bindkey -s "^[Oo" "/"
+
+[[ -f ~/.zsh_alias ]] && source ~/.zsh_alias
+
+
+# pyenv
+# export PATH="/HOME/.pyenv/bin:$PATH" 
+# eval "$(pyenv init -)"
+# eval "$(pyenv virtualenv-init -)"
