@@ -8,7 +8,9 @@ need **sudo** right, edit /etc/sudoers
 ```
 wget -O - https://raw.githubusercontent.com/sseaky/common/master/init/antigen.sh | bash && zsh  
 
-wget -O - https://raw.githubusercontent.com/sseaky/common/master/init/vim.sh | bash
+wget -O - https://raw.githubusercontent.com/sseaky/common/master/init/vim.sh | bash  
+
+wget -O - https://raw.githubusercontent.com/sseaky/common/master/init/tmux.sh | bash
 ```
 
 ```
