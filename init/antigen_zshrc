@@ -12,7 +12,7 @@ antigen bundle pip
 antigen bundle lein
 antigen bundle command-not-found
 antigen bundle colored-man-pages
-antigen bundle autojump
+# antigen bundle autojump
 
 # antigen bundle battery    # '$(battery_pct_prompt)'
 antigen bundle cp
