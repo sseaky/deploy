@@ -1,9 +1,9 @@
 # @Author: Seaky
 # @Date:   2019-06-27 10:28:19
 # @Last Modified by:   Seaky
-# @Last Modified time: 2020-06-08 15:32:06
+# @Last Modified time: 2020-06-15 14:11:49
 
-# wget -qO - https://raw.githubusercontent.com/sseaky/common/master/init/vim.sh | bash
+# wget -O - https://raw.githubusercontent.com/sseaky/common/master/init/vim.sh | bash
 
 while getopts "s" arg
 do
