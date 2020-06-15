@@ -1,5 +1,5 @@
 # common
-need **sudo** right, edit /etc/sudoers
+need **sudo** right if require apps installation, edit /etc/sudoers
 
 `seaky  ALL=(ALL:ALL) NOPASSWD: ALL`
 
