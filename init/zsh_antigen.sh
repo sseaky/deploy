@@ -3,8 +3,8 @@
 # @Last Modified by:   Seaky
 # @Last Modified time: 2020-06-15 14:27:18
 
-# wget --no-proxy -qO - https://raw.githubusercontent.com/sseaky/common/master/init/antigen.sh | bash && zsh
-# wget --no-proxy -qO - https://raw.githubusercontent.com/sseaky/common/master/init/antigen.sh | bash -s -- -w <WAKATIME_KEY> && zsh
+# wget --no-proxy -qO - https://raw.githubusercontent.com/sseaky/common/master/init/zsh_antigen.sh | bash && zsh
+# wget --no-proxy -qO - https://raw.githubusercontent.com/sseaky/common/master/init/zsh_antigen.sh | bash -s -- -w <WAKATIME_KEY> && zsh
 #
 
 while getopts "w:" arg
@@ -28,7 +28,7 @@ sudo apt install -y zsh git
 wget -O ~/.antigen.zsh git.io/antigen
 sed -ir 's#ANTIGEN_INSTALL_DIR/antigen.zsh#ANTIGEN_INSTALL_DIR/.antigen.zsh#' ~/.antigen.zsh
 
-wget -qO ~/.zshrc $SERVER/antigen_zshrc
+wget -qO ~/.zshrc $SERVER/zshrc_antigen
 sed -ir "s#/HOME/#${HOME}/#" ~/.zshrc
 wget -qO ~/.zsh_alias $SERVER/zsh_alias
 
