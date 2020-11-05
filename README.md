@@ -1,4 +1,5 @@
 # About
+
 need **sudo** right if require apps installation, edit /etc/sudoers
 
 `seaky  ALL=(ALL:ALL) NOPASSWD: ALL`
@@ -17,9 +18,23 @@ wget -O - https://raw.githubusercontent.com/sseaky/deploy/master/init/tmux.sh | 
 wget -O - https://raw.githubusercontent.com/sseaky/deploy/master/init/pyenv.sh | bash
 ```
 
+
+
+## Proxy
+
 ```
 --no-check-certificate 
 -e "http_proxy=http://127.0.0.1:8087"
 --no-proxy
+```
+
+
+
+## DNS
+
+sudo vi /etc/hosts
+
+```
+199.232.4.133 raw.githubusercontent.com
 ```
 
