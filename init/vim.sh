@@ -18,8 +18,9 @@ do
     esac
 done 
 
+GITHUB_MIRROR=${GITHUB_MIRROR:-github.com}
 
-export SERVER="https://raw.githubusercontent.com/sseaky/common/master/init"
+export SERVER="https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init"
 
 # sudo apt install -y vim-nox
 # :echo has('python') || has('python3')
@@ -31,7 +32,7 @@ sed -ir "s#/HOME/#${HOME}/#" ~/.vimrc
 if [ $server_mode ];then
     echo "server mode"
 else
-    git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+    git clone https://${GITHUB_MIRROR}/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
     echo "
     Install
         Launch vim and run :PluginInstall

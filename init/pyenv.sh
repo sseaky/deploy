@@ -2,7 +2,9 @@
 # @Author: Seaky
 # @Date: 2020-08-12 14:58:02
 
-sudo curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+GITHUB_MIRROR=${GITHUB_MIRROR:-github.com}
+
+sudo curl -L https://${GITHUB_MIRROR}/pyenv/pyenv-installer/blob/master/bin/pyenv-installer | bash
 if [[ -f ~/.zshrc ]]; then
     configfile='~/.zshrc'
 elif [[ -f ~/.bashrc ]]; then
@@ -21,7 +23,7 @@ source $configfile
 
 cachedir=~/.pyenv/cache
 mkdir $cachedir
-[[ -f $cachedir/Python-3.5.2.tar.xz ]] || wget --directory-prefix=$cachedir https://github.com/sseaky/deploy/releases/download/py3.5.2/Python-3.5.2.tar.xz
+[[ -f $cachedir/Python-3.5.2.tar.xz ]] || wget --directory-prefix=$cachedir https://${GITHUB_MIRROR}/sseaky/deploy/releases/download/py3.5.2/Python-3.5.2.tar.xz
 
 
 sudo apt-get install libssl1.0-dev

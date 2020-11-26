@@ -5,7 +5,6 @@
 # 
 # wget -O - https://raw.githubusercontent.com/sseaky/common/master/init/bashit.sh | bash
 
-
 GITHUB_MIRROR=${GITHUB_MIRROR:-github.com}
 
 git clone --depth=1 https://${GITHUB_MIRROR}/Bash-it/bash-it.git ~/.bash_it

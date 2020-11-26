@@ -7,6 +7,7 @@
 
 VERSION=202011
 
+
 set_text_color(){
     COLOR_RED='\E[1;31m'
     COLOR_GREEN='\E[1;32m'
@@ -120,8 +121,8 @@ _adduser(){
         usermod -U ${_USER} >> /dev/null 2>&1
         usermod -p '*' ${_USER}
     fi
-    DIR_HOME=`eval echo "~${_USER}"`
-    DIR_SSH="${DIR_HOME}/.ssh"
+    USER_HOME=`eval echo "~${_USER}"`
+    DIR_SSH="${USER_HOME}/.ssh"
 }
 
 set_sudo(){
@@ -133,12 +134,12 @@ set_sudo(){
 }
 
 set_vim(){
-    if `grep -q "syntax on" ${DIR_HOME}/.vimrc >> /dev/null 2>&1`
+    if `grep -q "syntax on" ${USER_HOME}/.vimrc >> /dev/null 2>&1`
     then
         show_warn ".vimrc is stuffed"
     else
         show_process "Set .vimrc"
-        cat >> ${DIR_HOME}/.vimrc << EOF
+        cat >> ${USER_HOME}/.vimrc << EOF
 syntax on
 set tabstop=4
 set softtabstop=4
@@ -148,6 +149,13 @@ set cursorline
 EOF
     fi
 }
+
+show_hint(){
+    show_process "For further setup"
+    echo "    sudo su - ${_USER}"
+    echo "    bash <(wget -qO - https://github.com/sseaky/deploy/raw/master/init/init_user.sh)"
+}
+
 
 show_usage(){
     echo "Usage:  sudo bash add_user.sh -u <new_user> [-d] [-s]"
@@ -175,6 +183,7 @@ uD0lnz8Xe37Qo5/YpTaLo1sBNwcx1wrgCiNE3eh3TLpLcbXORxF3CGC8Btra95Xv
 CIPHER_PUB=`merge_line $CIPHER_PUB`
 
 FLAG_SET_SUDO=false
+FLAG_ZSH=false
 KEY_FROM="stdin"
 
 while getopts 'u:cdsm:e' opt
@@ -191,7 +200,6 @@ do
     esac
 done
 
-eval echo "~${_USER}"
 
 check_root
 check_param
@@ -200,4 +208,4 @@ _adduser
 append_key
 $FLAG_SET_SUDO && [ "$_USER" != "root" ] && set_sudo
 set_vim
-
+show_hint

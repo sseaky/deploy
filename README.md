@@ -25,18 +25,8 @@ need **sudo** right if require apps installation, edit /etc/sudoers.d/seaky
 
 `seaky  ALL=(ALL:ALL) NOPASSWD: ALL`
 
-
-
 ```
-wget -O - https://github.com/sseaky/deploy/raw/master/init/bashit.sh | bash
-
-wget -O - https://github.com/sseaky/deploy/master/init/zsh_antigen.sh | bash && zsh  
-
-wget -O - https://github.com/sseaky/deploy/master/init/vim.sh | bash  
-
-wget -O - https://github.com/sseaky/deploy/master/init/tmux.sh | bash
-
-wget -O - https://github.com/sseaky/deploy/master/init/pyenv.sh | bash
+bash <(wget -qO - https://github.com/sseaky/deploy/raw/master/init/init_user.sh)
 ```
 
 

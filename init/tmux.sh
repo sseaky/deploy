@@ -6,6 +6,8 @@
 
 # wget -O - https://raw.githubusercontent.com/sseaky/common/master/init/tmux.sh | bash
 
+GITHUB_MIRROR=${GITHUB_MIRROR:-github.com}
+
 _sudo=''
 uid=`id -u`
 if [ $uid -ne 0 ];then
@@ -29,7 +31,7 @@ inst tmux
 inst git
 
 cd
-[[ ! -d ~/.tmux ]] && git clone https://github.com/gpakosz/.tmux.git && ln -s -f ~/.tmux/.tmux.conf && cp ~/.tmux/.tmux.conf.local .
+[[ ! -d ~/.tmux ]] && git clone https://${GITHUB_MIRROR)/gpakosz/.tmux.git && ln -s -f ~/.tmux/.tmux.conf && cp ~/.tmux/.tmux.conf.local .
 # [[ -e ~/.tmux.conf.local && ! $(grep "^set -g mode-mouse on" ~/.tmux.conf.local) ]] && cat >> ~/.tmux.conf.local << EOF
 # SET -g MODE-mouse ON
 # SET -g mouse-resize-pane ON
@@ -67,7 +69,7 @@ cfg='run-shell ~/.tmux/plugins/tmux-resurrect/resurrect.tmux'
 cd ~/.tmux
 [[ ! -d plugins ]] && mkdir plugins
 cd plugins
-[[ ! -d tmux-resurrect ]] && git clone https://github.com/tmux-plugins/tmux-resurrect.git
+[[ ! -d tmux-resurrect ]] && git clone https://${GITHUB_MIRROR)/tmux-plugins/tmux-resurrect.git
 [[ -e ~/.tmux.conf.local && ! $(grep "^${cfg}" ~/.tmux.conf.local) ]] && cat >> ~/.tmux.conf.local << EOF
 $cfg
 EOF
