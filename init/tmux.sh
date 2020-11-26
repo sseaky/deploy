@@ -31,7 +31,7 @@ inst tmux
 inst git
 
 cd
-[[ ! -d ~/.tmux ]] && git clone https://${GITHUB_MIRROR)/gpakosz/.tmux.git && ln -s -f ~/.tmux/.tmux.conf && cp ~/.tmux/.tmux.conf.local .
+[[ ! -d ~/.tmux ]] && git clone https://${GITHUB_MIRROR}/gpakosz/.tmux.git && ln -s -f ~/.tmux/.tmux.conf && cp ~/.tmux/.tmux.conf.local .
 # [[ -e ~/.tmux.conf.local && ! $(grep "^set -g mode-mouse on" ~/.tmux.conf.local) ]] && cat >> ~/.tmux.conf.local << EOF
 # SET -g MODE-mouse ON
 # SET -g mouse-resize-pane ON
