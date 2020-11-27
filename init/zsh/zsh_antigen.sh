@@ -75,3 +75,5 @@ wget -qO ~/.zsh_alias ${SERVER}/zsh_alias
 sudo chsh -s `which zsh` `echo $USER`
 
 set_wt
+
+zsh -c "source ~/.zshrc"

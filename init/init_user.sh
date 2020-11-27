@@ -41,39 +41,42 @@ choice_mirror(){
 }
 
 choice_install(){
-    echo
-    echo -e "${COLOR_GREEN}Choice Module:${COLOR_END}"
-    echo "    1: oh-my-zsh"
-    echo "    2: bashit"
-    echo "    3: vim"
-    echo "    4: tmux"
-    echo "    5: pyenv"
-    echo "-------------------------"
-    read -e -p "Enter your choice: " str_choice_source
-    case "${str_choice_source}" in
-        1)
-            bash <(wget -qO - https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/zsh/zsh_antigen.sh) && zsh
-            ;;
-        2)
-            wget -qO - https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/bash/bashit.sh | bash
-            ;;
-        3)
-            wget -qO - https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/vim/vim.sh | bash
-            ;;
-        4)
-            wget -qO - https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/tmux/tmux.sh | bash
-            ;;
-        5)
-            wget -qO - https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/pyenv/pyenv.sh | bash
-            ;;
-        [eE][xX][iI][tT])
-            exit 1
-            ;;
-        *)
-            echo "No choice."
-            exit 1
-            ;;
-    esac
+    while true
+    do
+        echo
+        echo -e "${COLOR_GREEN}Choice Module:${COLOR_END}"
+        echo "    1: oh-my-zsh"
+        echo "    2: bashit"
+        echo "    3: vim"
+        echo "    4: tmux"
+        echo "    5: pyenv"
+        echo "-------------------------"
+        read -e -p "Enter your choice: " str_choice_source
+        case "${str_choice_source}" in
+            1)
+                bash <(wget -O - https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/zsh/zsh_antigen.sh)
+                ;;
+            2)
+                wget -O - https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/bash/bashit.sh | bash
+                ;;
+            3)
+                wget -O - https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/vim/vim.sh | bash
+                ;;
+            4)
+                wget -O - https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/tmux/tmux.sh | bash
+                ;;
+            5)
+                wget -O - https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/pyenv/pyenv.sh | bash
+                ;;
+            [eE][xX][iI][tT])
+                exit 1
+                ;;
+            *)
+                echo "No choice."
+                exit 1
+                ;;
+        esac
+    done
 }
 
 choice_mirror

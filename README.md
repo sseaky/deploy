@@ -5,16 +5,14 @@ Apply my environment on new server quickly.
 
 
 ## Add user
+```bash
+sudo bash -c "bash <(wget -qO - https://github.com/sseaky/deploy/raw/master/init/add_user.sh) -u <new_user> [-s]"
+```
+or
 
 ```bash
 wget https://github.com/sseaky/deploy/raw/master/init/add_user.sh
 sudo bash add_user.sh -u <new_user> [-s]
-```
-
-or
-
-```bash
-sudo bash -c "bash <(wget -qO - https://github.com/sseaky/deploy/raw/master/init/add_user.sh) -u <new_user> [-s]"
 ```
 
 
