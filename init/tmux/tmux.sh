@@ -4,7 +4,7 @@
 # @Last Modified BY:   Seaky
 # @Last Modified time: 2020-06-08 16:26:33
 
-# wget -O - https://raw.githubusercontent.com/sseaky/common/master/init/tmux.sh | bash
+# wget -O - https://github.com/sseaky/deploy/master/init/tmux/tmux.sh | bash
 
 GITHUB_MIRROR=${GITHUB_MIRROR:-github.com}
 

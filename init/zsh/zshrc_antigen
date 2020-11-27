@@ -63,7 +63,7 @@ export RPROMPT='%{$fg_bold[yellow]%}%?%{$reset_color%} %{$fg[red]%}%*%{$reset_co
 
 export PATH=$PATH:/sbin:/usr/sbin
 export TERM=xterm-256color
-export LANG=zh_CN.UTF-8
+export LANG=C.UTF-8
 
 # Fix numeric keypad
 # 0 . Enter

@@ -1,9 +1,10 @@
+#!/usr/bin/env bash
 # @Author: Seaky
 # @Date:   2019-06-27 10:28:19
 # @Last Modified by:   Seaky
 # @Last Modified time: 2020-06-15 14:11:49
 
-# wget -O - https://raw.githubusercontent.com/sseaky/common/master/init/vim.sh | bash
+# wget -O - https://github.com/sseaky/deploy/master/init/vim/vim.sh | bash
 
 while getopts "s" arg
 do
@@ -20,7 +21,7 @@ done
 
 GITHUB_MIRROR=${GITHUB_MIRROR:-github.com}
 
-export SERVER="https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init"
+export SERVER="https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/vim"
 
 # sudo apt install -y vim-nox
 # :echo has('python') || has('python3')

@@ -52,19 +52,19 @@ choice_install(){
     read -e -p "Enter your choice: " str_choice_source
     case "${str_choice_source}" in
         1)
-            wget -qO - https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/zsh_antigen.sh | bash && zsh
+            bash <(wget -qO - https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/zsh/zsh_antigen.sh) && zsh
             ;;
         2)
-            wget -qO - https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/bashit.sh | bash
+            wget -qO - https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/bash/bashit.sh | bash
             ;;
         3)
-            wget -qO - https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/vim.sh | bash
+            wget -qO - https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/vim/vim.sh | bash
             ;;
         4)
-            wget -qO - https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/tmux.sh | bash
+            wget -qO - https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/tmux/tmux.sh | bash
             ;;
         5)
-            wget -qO - https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/pyenv.sh | bash
+            wget -qO - https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/pyenv/pyenv.sh | bash
             ;;
         [eE][xX][iI][tT])
             exit 1

@@ -3,7 +3,7 @@
 # @Last Modified by:   Seaky
 # @Last Modified time: 2020-06-15 14:27:49
 # 
-# wget -O - https://raw.githubusercontent.com/sseaky/common/master/init/bashit.sh | bash
+# wget -O - https://github.com/sseaky/deploy/master/init/bash/bashit.sh | bash
 
 GITHUB_MIRROR=${GITHUB_MIRROR:-github.com}
 
