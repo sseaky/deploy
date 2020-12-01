@@ -20,15 +20,15 @@ set_text_color(){
 }
 
 show_process(){
-    echo -e "${COLOR_GREEN}- INFO: $1${COLOR_END}"
+    echo -e "${COLOR_GREEN}- INFO: $*${COLOR_END}"
 }
 
 show_error(){
-    echo -e "${COLOR_RED}! ERROR: $1${COLOR_END}"
+    echo -e "${COLOR_RED}! ERROR: $*${COLOR_END}"
 }
 
 show_warn(){
-    echo -e "${COLOR_YELLOW}* WARN: $1${COLOR_END}"
+    echo -e "${COLOR_YELLOW}* WARN: $*${COLOR_END}"
 }
 
 merge_line(){

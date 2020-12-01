@@ -49,6 +49,7 @@ choice_install(){
         echo "    2: bashit"
         echo "    3: vim"
         echo "    4: tmux"
+        echo "    5: frp"
         echo "    5: pyenv"
         echo "-------------------------"
         read -e -p "Enter your choice: " str_choice_source
@@ -66,6 +67,9 @@ choice_install(){
                 wget -O - https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/tmux/tmux.sh | bash
                 ;;
             5)
+                wget -O - https://${GITHUB_MIRROR}/sseaky/frp-onekey/raw/main/frp_onekey.sh | bash
+                ;;
+            6)
                 wget -O - https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/pyenv/pyenv.sh | bash
                 ;;
             [eE][xX][iI][tT])
