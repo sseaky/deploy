@@ -49,8 +49,10 @@ choice_install(){
         echo "    2: bashit"
         echo "    3: vim"
         echo "    4: tmux"
-        echo "    5: frp"
-        echo "    5: pyenv"
+        echo "    5: antiscan"
+        echo "    6: frp"
+        echo "    7: npc"
+        echo "    8: pyenv"
         echo "-------------------------"
         read -e -p "Enter your choice: " str_choice_source
         case "${str_choice_source}" in
@@ -67,9 +69,15 @@ choice_install(){
                 wget -O - https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/tmux/tmux.sh | bash
                 ;;
             5)
-                wget -O - https://${GITHUB_MIRROR}/sseaky/frp-onekey/raw/main/frp_onekey.sh | bash
+                sudo -E bash -c "bash <(wget -qO - https://github.com/sseaky/AntiScan/raw/master/antiscan_onekey.sh) install"
                 ;;
             6)
+                wget -O - https://${GITHUB_MIRROR}/sseaky/frp-onekey/raw/main/frp_onekey.sh | bash
+                ;;
+            7)
+                wget -O - https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/npc/npc_install.sh | bash
+                ;;
+            8)
                 wget -O - https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/pyenv/pyenv.sh | bash
                 ;;
             [eE][xX][iI][tT])
