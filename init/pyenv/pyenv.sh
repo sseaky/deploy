@@ -4,11 +4,11 @@
 
 GITHUB_MIRROR=${GITHUB_MIRROR:-github.com}
 
-sudo curl -L https://${GITHUB_MIRROR}/pyenv/pyenv-installer/blob/master/bin/pyenv-installer | bash
+sudo curl -L https://${GITHUB_MIRROR}/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
 if [[ -f ~/.zshrc ]]; then
-    configfile='~/.zshrc'
+    configfile=~/.zshrc
 elif [[ -f ~/.bashrc ]]; then
-    configfile='~/.bashrc'
+    configfile=~/.bashrc
 fi
 
 grep -qE '^eval "\$\(pyenv init -\)"' $configfile || cat >> $configfile << EOF
