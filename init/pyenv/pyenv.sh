@@ -5,10 +5,10 @@
 GITHUB_MIRROR=${GITHUB_MIRROR:-github.com}
 
 sudo curl -L https://${GITHUB_MIRROR}/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
-if [[ -f ~/.zshrc ]]; then
-    configfile=~/.zshrc
-elif [[ -f ~/.bashrc ]]; then
-    configfile=~/.bashrc
+if [[ -f $HOME/.zshrc ]]; then
+    configfile=$HOME/.zshrc
+elif [[ -f $HOME/.bashrc ]]; then
+    configfile=$HOME/.bashrc
 fi
 
 grep -qE '^eval "\$\(pyenv init -\)"' $configfile || cat >> $configfile << EOF
@@ -23,10 +23,10 @@ source $configfile
 
 cachedir=~/.pyenv/cache
 mkdir $cachedir
-[[ -f $cachedir/Python-3.5.2.tar.xz ]] || wget --directory-prefix=$cachedir https://${GITHUB_MIRROR}/sseaky/deploy/releases/download/py3.5.2/Python-3.5.2.tar.xz
+[[ -f $cachedir/Python-3.7.2.tar.xz ]] || wget --directory-prefix=$cachedir https://${GITHUB_MIRROR}/sseaky/deploy/releases/download/py3.7.2/Python-3.7.2.tar.xz
 
 
-sudo apt-get install libssl1.0-dev
+sudo apt-get install libssl1.0-dev zlib1g-dev
 
 
 echo '
