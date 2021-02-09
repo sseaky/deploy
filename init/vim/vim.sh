@@ -6,6 +6,20 @@
 
 # bash <(wget --no-check-certificate -O - https://${GITHUB_MIRROR:-github.com}/sseaky/deploy/raw/master/init/vim/vim.sh) -p
 
+GITHUB_MIRROR=${GITHUB_MIRROR:-github.com}
+
+wgetx='wget --no-check-certificate '
+
+github_retry(){
+    i=${WGET_RETRY:-5}
+    while [ $i -gt 0 ]
+    do
+        i=$(( $i - 1 ))
+        $wgetx -O $1 $2
+        [ $? -eq 0 ] && break
+    done
+}
+
 check_install_tool(){
     if [ -n "$(command -v yum)" ];then
         OS="centos"
@@ -33,8 +47,6 @@ check_sudo(){
 }
 check_sudo
 
-wgetx='wget -q --no-check-certificate '
-
 while getopts "p" arg
 do
     case $arg in
@@ -48,12 +60,11 @@ do
     esac
 done 
 
-GITHUB_MIRROR=${GITHUB_MIRROR:-github.com}
 export SERVER="https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/vim"
 
 # common install
 $SUDO $INSTALL vim wget git
-$wgetx -O ~/.vimrc $SERVER/vimrc_common
+github_retry ~/.vimrc $SERVER/vimrc_common
 if [ ! -s ~/.vimrc ]; then
     echo "~/.vimrc is not valid"
     exit 1
@@ -74,7 +85,7 @@ if [ $install_vundle ]; then
     [[ -d ~/.vim ]] || mkdir .vim
     [ -d ~/.vim/bundle/Vundle.vim ] && echo "~/.vim/bundle/Vundle.vim is exist" || \
         git clone https://${GITHUB_MIRROR}/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-    $wgetx -O ~/.vimrc_vundle $SERVER/vimrc_vundle
+    github_retry ~/.vimrc_vundle $SERVER/vimrc_vundle
     if [ ! -s ~/.vimrc_vundle ]; then
         echo "~/.vimrc_vundle is not valid"
         exit 1

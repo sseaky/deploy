@@ -2,7 +2,7 @@
 " @Date:   2019-06-26
 " http://vimdoc.sourceforge.net/htmldoc/options.html
 
-" source .vimrc_vundle
+" source ~/.vimrc_vundle
 
 " set nocompatible              " be iMproved, required
 " filetype off                  " required
@@ -137,7 +137,7 @@ nnoremap U <C-r>
 " ex mode commands made easy 用于快速进入命令行
 nnoremap ; :
  
-" Force saving files that require root permission 
+" Force saving files that require root permission
 " cnoremap w!! w !sudo tee > /dev/null %
 cmap w!! w !sudo tee >/dev/null %
  
