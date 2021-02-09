@@ -39,6 +39,16 @@ bash <(wget -qO - https://github.com/sseaky/deploy/raw/master/init/init_user.sh)
 
 
 
+## Alternative Server
+
+```
+github.com.cnpmjs.org
+hub.fastgit.org
+g.ioiox.com/https://github.com
+```
+
+
+
 ## DNS
 
 sudo vi /etc/hosts
