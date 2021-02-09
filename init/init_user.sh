@@ -22,6 +22,9 @@ for x in $*; do
         vim)
             bash <(github_retry - https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/vim/vim.sh)
             ;;
+        bashit)
+            bash <(github_retry - https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/bash/bashit.sh)
+            ;;
         *)
             echo $x is illegal
             ;;
