@@ -4,7 +4,7 @@
 # @Last Modified by:   Seaky
 # @Last Modified time: 2020-06-15 14:11:49
 
-# bash <(wget -qO - https://github.com/sseaky/deploy/raw/master/init/vim.sh) -p
+# bash <(wget -qO - https://github.com/sseaky/deploy/raw/master/init/vim/vim.sh) -p
 
 check_install_tool(){
     if [ -n "$(command -v yum)" ];then
@@ -19,6 +19,7 @@ check_install_tool(){
         exit 1
     fi
 }
+check_install_tool
 
 while getopts "p" arg
 do
