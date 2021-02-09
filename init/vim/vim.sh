@@ -4,15 +4,15 @@
 # @Last Modified by:   Seaky
 # @Last Modified time: 2020-06-15 14:11:49
 
-# bash <(wget -qO - https://github.com/sseaky/deploy/raw/master/init/vim/vim.sh) -p
+# bash <(wget --no-check-certificate -O - https://${GITHUB_MIRROR:-github.com}/sseaky/deploy/raw/master/init/vim/vim.sh) -p
 
 check_install_tool(){
     if [ -n "$(command -v yum)" ];then
         OS="centos"
-        AY="yum"
+        INSTALL="yum install -y "
     elif [ -n "$(command -v apt)" ];then
         OS="debian"
-        AY="apt"
+        INSTALL="apt install -y "
     fi
     if [ -z "$OS" ]; then
         echo Can not inspect the os system
@@ -20,6 +20,20 @@ check_install_tool(){
     fi
 }
 check_install_tool
+
+check_sudo(){
+    if [ $UID -eq 0 ]; then
+        IS_ROOT=true
+        SUDO=""
+    else
+        IS_ROOT=false
+        [ -n "$(command -v sudo)" ] || $INSTALL sudo
+        SUDO="sudo "
+    fi
+}
+check_sudo
+
+wgetx='wget -q --no-check-certificate '
 
 while getopts "p" arg
 do
@@ -38,24 +52,33 @@ GITHUB_MIRROR=${GITHUB_MIRROR:-github.com}
 export SERVER="https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/vim"
 
 # common install
-sudo $AY install -y vim wget git
-wget -qO ~/.vimrc $SERVER/vimrc_common
+$SUDO $INSTALL vim wget git
+$wgetx -O ~/.vimrc $SERVER/vimrc_common
+if [ ! -s ~/.vimrc ]; then
+    echo "~/.vimrc is not valid"
+    exit 1
+fi
 
 # link vim
 vi_path=$(which vi)
 if [ -z "$vi_path" ]; then
-    sudo ln -s $(which vim) /bin/vi
+    $SUDO ln -s $(which vim) /bin/vi
 elif [ ! -L $vi_path ]; then
-    echo "bin vi exist, relink vi to vim"
-    sudo mv $vi_path ${vi_path}.save
-    sudo ln -s $(which vim) $vi_path
+    echo "$vi_path is a bin file, relink vi to vim"
+    $SUDO mv $vi_path ${vi_path}.save
+    $SUDO ln -s $(which vim) $vi_path
 fi
 
 # vundle
 if [ $install_vundle ]; then
     [[ -d ~/.vim ]] || mkdir .vim
-    git clone https://${GITHUB_MIRROR}/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-    wget -qO ~/.vimrc_vundle $SERVER/vimrc_vundle
+    [ -d ~/.vim/bundle/Vundle.vim ] && echo "~/.vim/bundle/Vundle.vim is exist" || \
+        git clone https://${GITHUB_MIRROR}/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+    $wgetx -O ~/.vimrc_vundle $SERVER/vimrc_vundle
+    if [ ! -s ~/.vimrc_vundle ]; then
+        echo "~/.vimrc_vundle is not valid"
+        exit 1
+    fi
     sed -ir "s#/HOME/#${HOME}/#" ~/.vimrc_vundle
     sed -ir "s/\" source .vimrc_vundle/source .vimrc_vundle/" ~/.vimrc
 
