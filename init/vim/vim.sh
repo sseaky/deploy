@@ -4,7 +4,7 @@
 # @Last Modified by:   Seaky
 # @Last Modified time: 2020-06-15 14:11:49
 
-# bash <(wget -qO - https://github.com/sseaky/deploy/raw/master/init/vim.sh) -v
+# bash <(wget -qO - https://github.com/sseaky/deploy/raw/master/init/vim.sh) -p
 
 check_install_tool(){
     if [ -n "$(command -v yum)" ];then
@@ -20,10 +20,10 @@ check_install_tool(){
     fi
 }
 
-while getopts "v" arg
+while getopts "p" arg
 do
     case $arg in
-         v)
+         p)
             install_vundle=true
             ;;
          ?)
@@ -37,8 +37,18 @@ GITHUB_MIRROR=${GITHUB_MIRROR:-github.com}
 export SERVER="https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/vim"
 
 # common install
-$AY install -y vim wget git
+sudo $AY install -y vim wget git
 wget -qO ~/.vimrc $SERVER/vimrc_common
+
+# link vim
+vi_path=$(which vi)
+if [ -z "$vi_path" ]; then
+    sudo ln -s $(which vim) /bin/vi
+elif [ ! -L $vi_path ]; then
+    echo "bin vi exist, relink vi to vim"
+    sudo mv $vi_path ${vi_path}.save
+    sudo ln -s $(which vim) $vi_path
+fi
 
 # vundle
 if [ $install_vundle ]; then
