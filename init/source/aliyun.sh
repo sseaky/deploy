@@ -4,7 +4,7 @@
 
 #
 
-[ $SK_SOURCE ] || source <(wget --no-check-certificate -q -O - https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/func.sh)
+[ $SK_SOURCE ] || source <(wget --no-check-certificate -q -O - https://${GITHUB_MIRROR:-github.com}/sseaky/deploy/raw/master/init/func.sh)
 
 if [ "$ID" = "ubuntu" ]; then
     if [ -z "${UBUNTU_CODENAME}" ];then

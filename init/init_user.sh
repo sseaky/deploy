@@ -9,8 +9,8 @@ if [ ! $SK_SOURCE ]; then
     i=$GITHUB_RETRY
     while [ $i -gt 0 ]; do
         i=$(( $i - 1 ))
-        source <(wget --no-check-certificate -O - https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/func.sh)
-        [ $sk_SOURCE ] && break
+        source <(wget --no-check-certificate -O - https://${GITHUB_MIRROR:-github.com}/sseaky/deploy/raw/master/init/func.sh)
+        [ $SK_SOURCE ] && break
     done
 fi
 if [ ! $SK_SOURCE ]; then
