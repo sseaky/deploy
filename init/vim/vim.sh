@@ -6,46 +6,13 @@
 
 # bash <(wget --no-check-certificate -O - https://${GITHUB_MIRROR:-github.com}/sseaky/deploy/raw/master/init/vim/vim.sh) -p
 
+[ $SK_SOURCE ] || source <(wget -q -O - http://192.168.236.100:8888/init/func.sh)
+
+check_pkg vim
+check_pkg git
+
+
 GITHUB_MIRROR=${GITHUB_MIRROR:-github.com}
-
-wgetx='wget --no-check-certificate '
-
-github_retry(){
-    i=${WGET_RETRY:-5}
-    while [ $i -gt 0 ]
-    do
-        i=$(( $i - 1 ))
-        $wgetx -O $1 $2
-        [ $? -eq 0 ] && break
-    done
-}
-
-check_install_tool(){
-    if [ -n "$(command -v yum)" ];then
-        OS="centos"
-        INSTALL="yum install -y "
-    elif [ -n "$(command -v apt)" ];then
-        OS="debian"
-        INSTALL="apt install -y "
-    fi
-    if [ -z "$OS" ]; then
-        echo Can not inspect the os system
-        exit 1
-    fi
-}
-check_install_tool
-
-check_sudo(){
-    if [ $UID -eq 0 ]; then
-        IS_ROOT=true
-        SUDO=""
-    else
-        IS_ROOT=false
-        [ -n "$(command -v sudo)" ] || $INSTALL sudo
-        SUDO="sudo "
-    fi
-}
-check_sudo
 
 while getopts "p" arg
 do
@@ -58,12 +25,11 @@ do
     exit 1
     ;;
     esac
-done 
+done
 
 export SERVER="https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/vim"
 
 # common install
-$SUDO $INSTALL vim wget git
 github_retry ~/.vimrc $SERVER/vimrc_common
 if [ ! -s ~/.vimrc ]; then
     echo "~/.vimrc is not valid"

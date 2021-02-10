@@ -2,20 +2,10 @@
 # @Author: Seaky
 # @Date:   2020/11/26 22:49
 
-
 GITHUB_MIRROR=${GITHUB_MIRROR:-github.com}
+[ $SK_SOURCE ] || source <(https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/func.sh)
 
-wgetx='wget --no-check-certificate '
-
-github_retry(){
-    i=${WGET_RETRY:-5}
-    while [ $i -gt 0 ]
-    do
-        i=$(( $i - 1 ))
-        $wgetx -O $1 $2
-        [ $? -eq 0 ] && break
-    done
-}
+GITHUB_RETRY=10
 
 for x in $*; do
     case $x in
@@ -23,7 +13,10 @@ for x in $*; do
             bash <(github_retry - https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/vim/vim.sh)
             ;;
         bashit)
-            bash <(github_retry - https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/bash/bashit.sh)
+            bash <(github_retry - https://${GITHUB_MIRROR:-github.com}/sseaky/deploy/raw/master/init/bash/bashit.sh)
+            ;;
+        aliyun)
+            bash <(github_retry - https://${GITHUB_MIRROR:-github.com}/sseaky/deploy/raw/master/init/source/aliyun.sh)
             ;;
         *)
             echo $x is illegal
