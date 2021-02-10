@@ -12,7 +12,7 @@ need **sudo** right if require apps installation, edit /etc/sudoers.d/seaky
 
 ```
 # export GITHUB_MIRROR="g.ioiox.com/https://github.com"
-# export WGET_RETRY=10
+# export GITHUB_RETRY=10
 GITHUB_MIRROR=${GITHUB_MIRROR:-github.com}
 bash <(wget --no-check-certificate -qO - https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/init_user.sh) [module]
 ```

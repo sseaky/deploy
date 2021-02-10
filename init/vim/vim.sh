@@ -6,7 +6,7 @@
 
 # bash <(wget --no-check-certificate -O - https://${GITHUB_MIRROR:-github.com}/sseaky/deploy/raw/master/init/vim/vim.sh) -p
 
-[ $SK_SOURCE ] || source <(wget -q -O - http://192.168.236.100:8888/init/func.sh)
+[ $SK_SOURCE ] || source <(wget --no-check-certificate -q -O - https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/func.sh)
 
 check_pkg vim
 check_pkg git
