@@ -1,4 +1,8 @@
 
+wgetx='wget --no-check-certificate -q '
+
+SK_SOURCE=true
+
 # enhance echo
 set_text_color(){
     COLOR_RED='\E[1;31m'
@@ -22,6 +26,26 @@ show_error(){
 
 show_warn(){
     echo -e "${COLOR_YELLOW}* WARN: $*${COLOR_END}"
+}
+
+show_title(){
+    echo -e "${COLOR_YELLOW}* $* "
+}
+
+show_banner(){
+    str_repeat(){
+        eval printf -- "$1%0.s" {1..$2}
+    }
+    indent=2
+    title=$@
+    len=$((${#title} + $indent + $indent))
+    echo
+    echo "+"$(str_repeat "-" $len)"+"
+    printf "|%$((${len}+1))s\n" "|"
+    printf "|%$((${#title} + $indent))s%$((${indent}+1))s\n" "$title" "|"
+    printf "|%$((${len}+1))s\n" "|"
+    echo "+"$(str_repeat "-" $len)"+"
+    echo
 }
 
 merge_line(){
@@ -53,7 +77,7 @@ check_pkg(){
     if [ -n "$1" ]; then
         cmd=$1
         pkg=${2:-${cmd}}
-        [ -n "$(command -v $cmd)" ] || $INSTALL $pkg
+        [ -n "$(command -v $cmd)" ] || $SUDO $INSTALL $pkg
     fi
 }
 
@@ -78,9 +102,25 @@ check_root(){
     fi
 }
 
+read_param(){
+    VAR_NAME=$1
+    while true
+    do
+        echo Please input $VAR_NAME:
+        read $2 INPUT
+        if [ -z "$INPUT" ]
+        then
+            echo "$VAR_NAME can't be none!"
+        else
+            eval "VAR_NAME=$INPUT"
+            break
+        fi
+    done
+}
+
 # github ssl fail
-github_retry(){
-    i=${GITHUB_RETRY:-5}
+web_get(){
+    i=${WEB_RETRY:-10}
     while [ $i -gt 0 ]
     do
         i=$(( $i - 1 ))
@@ -89,6 +129,28 @@ github_retry(){
     done
 }
 
-wgetx='wget --no-check-certificate '
 
-SK_SOURCE=true
+
+# crypto
+encrypt(){
+    show_info "Input PLAIN TEXT for crypt: "
+    read plain_text
+    show_info "Input PASSWORD 1st time: "
+    read -s password1
+    show_info "Input PASSWORD 2nd time: "
+    read -s password2
+    [ "$password1" != "$password2" ] && show_error "passwords are not match" && exit 1
+    password=`echo $password1 | md5sum | awk '{print $1}'`
+    echo $plain_text | openssl enc -a -e -aes-256-cbc -k $password
+    exit
+}
+
+decrypt(){
+    _password=`echo $1 | md5sum | awk '{print $1}'`
+    result=`echo $2 | openssl enc -a -d -aes-256-cbc -k $_password`
+    if [ $? -ne 0 ]
+    then
+        exit 1
+    fi
+    echo $result
+}

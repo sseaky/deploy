@@ -4,34 +4,31 @@
 # @Last Modified BY:   Seaky
 # @Last Modified time: 2020-06-08 16:26:33
 
-# wget -O - https://github.com/sseaky/deploy/master/init/tmux/tmux.sh | bash
+# source <(wget --no-check-certificate -qO - ${GITHUB_MIRROR:-https://github.com}/sseaky/deploy/raw/master/init/tmux/tmux.sh)
+#
 
-GITHUB_MIRROR=${GITHUB_MIRROR:-github.com}
+# assure to fetch source file
+GITHUB_MIRROR=${GITHUB_MIRROR:-https://github.com}
 
-_sudo=''
-uid=`id -u`
-if [ $uid -ne 0 ];then
-    _sudo='sudo'
-    # sudo ls >> /dev/NULL 2>&1
-    # [[ $? -eq 0 ]] || echo 'need sudo privilege'
+if [ ! $SK_SOURCE ]; then
+    i=${WEB_RETRY:-10}
+    while [ $i -gt 0 ]; do
+        i=$(( $i - 1 ))
+        source <(wget --no-check-certificate -qO - ${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/func.sh)
+        [ $SK_SOURCE ] && break
+    done
 fi
+if [ ! $SK_SOURCE ]; then
+    echo source faile
+    exit 1
+fi
+#
 
-inst()
-{
-    [[ $(dpkg -l $1 2> /dev/null ) ]] || \
-    (
-        ${_sudo} apt install -y tmux && [[ $(dpkg -l $1 2> /dev/null ) ]] || \
-        (
-            echo "$1 is not installed." && exit 2
-        )
-    )
-}
+check_pkg tmux
+check_pkg git
 
-inst tmux
-inst git
 
-cd
-[[ ! -d ~/.tmux ]] && git clone https://${GITHUB_MIRROR}/gpakosz/.tmux.git && ln -s -f ~/.tmux/.tmux.conf && cp ~/.tmux/.tmux.conf.local .
+[[ ! -d ~/.tmux ]] && git clone https://github.com/gpakosz/.tmux.git && ln -s -f ~/.tmux/.tmux.conf && cp ~/.tmux/.tmux.conf.local .
 # [[ -e ~/.tmux.conf.local && ! $(grep "^set -g mode-mouse on" ~/.tmux.conf.local) ]] && cat >> ~/.tmux.conf.local << EOF
 # SET -g MODE-mouse ON
 # SET -g mouse-resize-pane ON
@@ -69,7 +66,7 @@ cfg='run-shell ~/.tmux/plugins/tmux-resurrect/resurrect.tmux'
 cd ~/.tmux
 [[ ! -d plugins ]] && mkdir plugins
 cd plugins
-[[ ! -d tmux-resurrect ]] && git clone https://${GITHUB_MIRROR}/tmux-plugins/tmux-resurrect.git
+[[ ! -d tmux-resurrect ]] && git clone https://github.com/tmux-plugins/tmux-resurrect.git
 [[ -e ~/.tmux.conf.local && ! $(grep "^${cfg}" ~/.tmux.conf.local) ]] && cat >> ~/.tmux.conf.local << EOF
 $cfg
 EOF

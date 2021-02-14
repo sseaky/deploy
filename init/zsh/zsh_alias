@@ -4,6 +4,6 @@ alias ts='tmux a -t shell'
 alias tn='tmux a -t nohup'
 
 # set proxy
- _proxy='http://'
- alias px="https_proxy=$_proxy http_proxy=$_proxy "
+_proxy='http://'
+alias px="https_proxy=$_proxy http_proxy=$_proxy "
 

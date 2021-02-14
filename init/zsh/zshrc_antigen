@@ -38,6 +38,7 @@ antigen theme robbyrussell
 # Tell Antigen that you're done.
 antigen apply
 
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=245"
 
 DISABLE_AUTO_TITLE="true"
 DISABLE_AUTO_UPDATE="true"
@@ -89,9 +90,3 @@ bindkey -s "^[Oj" "*"
 bindkey -s "^[Oo" "/"
 
 [[ -f ~/.zsh_alias ]] && source ~/.zsh_alias
-
-
-# pyenv
-# export PATH="/HOME/.pyenv/bin:$PATH" 
-# eval "$(pyenv init -)"
-# eval "$(pyenv virtualenv-init -)"

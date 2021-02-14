@@ -4,15 +4,30 @@
 # @Last Modified by:   Seaky
 # @Last Modified time: 2020-06-15 14:11:49
 
-# bash <(wget --no-check-certificate -O - https://${GITHUB_MIRROR:-github.com}/sseaky/deploy/raw/master/init/vim/vim.sh) -p
+# bash <(wget --no-check-certificate -O - ${GITHUB_MIRROR:-github.com}/sseaky/deploy/raw/master/init/vim/vim.sh) -p
 
-[ $SK_SOURCE ] || source <(wget --no-check-certificate -q -O - https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/func.sh)
+# assure to fetch source file
+GITHUB_MIRROR=${GITHUB_MIRROR:-https://github.com}
+
+if [ ! $SK_SOURCE ]; then
+    i=${WEB_RETRY:-10}
+    while [ $i -gt 0 ]; do
+        i=$(( $i - 1 ))
+        source <(wget --no-check-certificate -qO - ${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/func.sh)
+        [ $SK_SOURCE ] && break
+    done
+fi
+if [ ! $SK_SOURCE ]; then
+    echo source faile
+    exit 1
+fi
+#
+
+show_banner Set VIM
 
 check_pkg vim
 check_pkg git
 
-
-GITHUB_MIRROR=${GITHUB_MIRROR:-github.com}
 
 while getopts "p" arg
 do
@@ -27,10 +42,10 @@ do
     esac
 done
 
-export SERVER="https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/vim"
+export SERVER="${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/vim"
 
 # common install
-github_retry ~/.vimrc $SERVER/vimrc_common
+web_get ~/.vimrc $SERVER/vimrc_common
 if [ ! -s ~/.vimrc ]; then
     echo "~/.vimrc is not valid"
     exit 1
@@ -50,8 +65,8 @@ fi
 if [ $install_vundle ]; then
     [[ -d ~/.vim ]] || mkdir .vim
     [ -d ~/.vim/bundle/Vundle.vim ] && echo "~/.vim/bundle/Vundle.vim is exist" || \
-        git clone https://${GITHUB_MIRROR}/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-    github_retry ~/.vimrc_vundle $SERVER/vimrc_vundle
+        git clone ${GITHUB_MIRROR}/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+    web_get ~/.vimrc_vundle $SERVER/vimrc_vundle
     if [ ! -s ~/.vimrc_vundle ]; then
         echo "~/.vimrc_vundle is not valid"
         exit 1

@@ -7,11 +7,14 @@
 
 VERSION=20210210
 
+# assure to fetch source file
+GITHUB_MIRROR=${GITHUB_MIRROR:-https://github.com}
+
 if [ ! $SK_SOURCE ]; then
-    i=${GITHUB_RETRY:-10}
+    i=${WEB_RETRY:-10}
     while [ $i -gt 0 ]; do
         i=$(( $i - 1 ))
-        source <(wget --no-check-certificate -O - https://${GITHUB_MIRROR:-github.com}/sseaky/deploy/raw/master/init/func.sh)
+        source <(wget --no-check-certificate -qO - ${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/func.sh)
         [ $SK_SOURCE ] && break
     done
 fi
@@ -19,6 +22,7 @@ if [ ! $SK_SOURCE ]; then
     echo source faile
     exit 1
 fi
+#
 
 encrypt(){
     show_info "Input PUBLIC KEY for crypt: "

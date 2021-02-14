@@ -2,9 +2,24 @@
 # @Author: Seaky
 # @Date: 2020-08-12 14:58:02
 
-GITHUB_MIRROR=${GITHUB_MIRROR:-github.com}
+# assure to fetch source file
+GITHUB_MIRROR=${GITHUB_MIRROR:-https://github.com}
 
-sudo curl -L https://${GITHUB_MIRROR}/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+if [ ! $SK_SOURCE ]; then
+    i=${WEB_RETRY:-10}
+    while [ $i -gt 0 ]; do
+        i=$(( $i - 1 ))
+        source <(wget --no-check-certificate -qO - ${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/func.sh)
+        [ $SK_SOURCE ] && break
+    done
+fi
+if [ ! $SK_SOURCE ]; then
+    echo source faile
+    exit 1
+fi
+#
+
+bash <(web_get - ${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/pyenv/pyenv-installer)
 if [[ -f $HOME/.zshrc ]]; then
     configfile=$HOME/.zshrc
 elif [[ -f $HOME/.bashrc ]]; then
@@ -14,7 +29,7 @@ fi
 grep -qE '^eval "\$\(pyenv init -\)"' $configfile || cat >> $configfile << EOF
 
 # pyenv
-export PATH="/home/hzshenzheng/.pyenv/bin:\$PATH"
+export PATH="~/.pyenv/bin:\$PATH"
 eval "\$(pyenv init -)"
 eval "\$(pyenv virtualenv-init -)"
 EOF
@@ -23,10 +38,10 @@ source $configfile
 
 cachedir=~/.pyenv/cache
 mkdir $cachedir
-[[ -f $cachedir/Python-3.7.2.tar.xz ]] || wget --directory-prefix=$cachedir https://${GITHUB_MIRROR}/sseaky/deploy/releases/download/py3.7.2/Python-3.7.2.tar.xz
+[[ -f $cachedir/Python-3.7.2.tar.xz ]] || wget --directory-prefix=$cachedir ${GITHUB_MIRROR}/sseaky/deploy/releases/download/py/Python-3.7.2.tar.xz
 
 
-sudo apt-get install libssl1.0-dev zlib1g-dev
+$SUDO $INSTALL libssl1.0-dev zlib1g-dev
 
 
 echo '
