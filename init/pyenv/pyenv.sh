@@ -19,6 +19,10 @@ if [ ! $SK_SOURCE ]; then
 fi
 #
 
+show_banner Install pyenv
+
+check_pkg gcc
+
 bash <(web_get - ${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/pyenv/pyenv-installer)
 if [[ -f $HOME/.zshrc ]]; then
     configfile=$HOME/.zshrc
@@ -29,7 +33,7 @@ fi
 grep -qE '^eval "\$\(pyenv init -\)"' $configfile || cat >> $configfile << EOF
 
 # pyenv
-export PATH="~/.pyenv/bin:\$PATH"
+export PATH=~/.pyenv/bin:\$PATH
 eval "\$(pyenv init -)"
 eval "\$(pyenv virtualenv-init -)"
 EOF
@@ -42,6 +46,7 @@ mkdir $cachedir
 
 
 $SUDO $INSTALL libssl1.0-dev zlib1g-dev
+$SUDO bach -c "$INSTALL zlib* libffi-deve openssl-devel"
 
 
 echo '

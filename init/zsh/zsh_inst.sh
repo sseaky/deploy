@@ -24,6 +24,7 @@ if [ ! $SK_SOURCE ]; then
 fi
 #
 
+show_banner Install ZSH
 
 export SERVER="${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/zsh"
 
