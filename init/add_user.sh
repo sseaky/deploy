@@ -141,7 +141,7 @@ set_sudo(){
 show_hint(){
     show_info "For further setup"
     echo "    sudo su - ${_USER}"
-    echo "    bash <(wget --no-check-certificate -qO - https://github.com/sseaky/deploy/raw/master/init/init_user.sh)"
+    echo "    bash <(wget --no-check-certificate -qO - ${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/init_user.sh)"
 }
 
 

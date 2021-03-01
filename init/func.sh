@@ -62,7 +62,7 @@ check_os(){
     fi
     source /etc/os-release
     if [ $ID = "ubuntu" -o $ID = "debian" ]; then
-        INSTALL="yum install -y "
+        INSTALL="apt install -y "
     elif [ $ID = "centos" ]; then
         INSTALL="yum install -y "
     else
