@@ -24,6 +24,7 @@ if [ ! $SK_SOURCE ]; then
 fi
 #
 
+
 encrypt(){
     show_info "Input PUBLIC KEY for crypt: "
     read pubkey_plain
@@ -183,7 +184,7 @@ do
     esac
 done
 
-
+show_banner Add user $_USER
 check_param
 get_pubkey
 _adduser

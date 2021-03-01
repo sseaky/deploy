@@ -23,7 +23,7 @@ show_banner Install pyenv
 
 check_pkg gcc
 
-bash <(web_get - ${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/pyenv/pyenv-installer)
+USE_GIT_URI=1 bash <(web_get - ${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/pyenv/pyenv-installer)
 if [[ -f $HOME/.zshrc ]]; then
     configfile=$HOME/.zshrc
 elif [[ -f $HOME/.bashrc ]]; then
@@ -46,7 +46,7 @@ mkdir $cachedir
 
 
 $SUDO $INSTALL libssl1.0-dev zlib1g-dev
-$SUDO bach -c "$INSTALL zlib* libffi-deve openssl-devel"
+$SUDO bash -c "$INSTALL zlib* libffi-devel openssl-devel"
 
 
 echo '

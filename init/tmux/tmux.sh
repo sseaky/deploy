@@ -66,7 +66,7 @@ cfg='run-shell ~/.tmux/plugins/tmux-resurrect/resurrect.tmux'
 cd ~/.tmux
 [[ ! -d plugins ]] && mkdir plugins
 cd plugins
-[[ ! -d tmux-resurrect ]] && git clone https://github.com/tmux-plugins/tmux-resurrect.git
+[[ ! -d tmux-resurrect ]] && git clone https://${GITHUB_MIRROR}/tmux-plugins/tmux-resurrect.git
 [[ -e ~/.tmux.conf.local && ! $(grep "^${cfg}" ~/.tmux.conf.local) ]] && cat >> ~/.tmux.conf.local << EOF
 $cfg
 EOF

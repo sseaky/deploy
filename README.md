@@ -10,26 +10,22 @@ need **sudo** right if require apps installation, edit /etc/sudoers.d/seaky
 
 `seaky  ALL=(ALL:ALL) NOPASSWD: ALL`
 
-```
-# export GITHUB_MIRROR="g.ioiox.com/https://github.com"
+```bash
 # export GITHUB_RETRY=10
+# export GITHUB_MIRROR="hub.fastgit.org"
 GITHUB_MIRROR=${GITHUB_MIRROR:-github.com}
-bash <(wget --no-check-certificate -qO - https://${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/init_user.sh) [module]
+bash <(wget --no-check-certificate -qO - https://${GITHUB_MIRROR:-https://github.com}/sseaky/deploy/raw/master/init/init_user.sh) [module]
 ```
 
 
 
 ## Add user
 ```bash
-sudo bash -c "bash <(wget -qO - https://github.com/sseaky/deploy/raw/master/init/add_user.sh) -u <new_user> [-s]"
+# export GITHUB_RETRY=10
+# export GITHUB_MIRROR="hub.fastgit.org"
+GITHUB_MIRROR=${GITHUB_MIRROR:-github.com}
+sudo bash -c "bash <(wget -qO - https://${GITHUB_MIRROR:-https://github.com}/sseaky/deploy/raw/master/init/add_user.sh) -u <new_user> [-s]"
 ```
-or
-
-```bash
-wget https://github.com/sseaky/deploy/raw/master/init/add_user.sh
-sudo bash add_user.sh -u <new_user> [-s]
-```
-
 
 
 ## Proxy
@@ -45,8 +41,8 @@ sudo bash add_user.sh -u <new_user> [-s]
 ## Alternative Server
 
 ```
-github.com.cnpmjs.org
 hub.fastgit.org
+github.com.cnpmjs.org
 g.ioiox.com/https://github.com
 ```
 
