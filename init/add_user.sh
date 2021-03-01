@@ -34,13 +34,17 @@ encrypt(){
     read -s password2
     [ "$password1" != "$password2" ] && show_error "passwords are not match" && exit 1
     password=`echo $password1 | md5sum | awk '{print $1}'`
-    echo $pubkey_plain | openssl enc -a -e -aes-256-cbc -k $password
+    # ubuntu18.04使用openssl1.1.1下
+    # echo $pubkey_plain | openssl enc -a -e -aes-256-cbc -pbkdf2 -iter 100000 -k $password
+    [ $(openssl version | grep -oh 'OpenSSL 1\.\S*' | cut -d" " -f 2 | cut -d"." -f2) -ge 1 ] && _param="-pbkdf2 -iter 100000" || _param=""
+    echo $pubkey_plain | openssl enc -a -e -aes-256-cbc $_param -k $password
     exit
 }
 
 decrypt(){
     _password=`echo $1 | md5sum | awk '{print $1}'`
-    result=`echo $2 | openssl enc -a -d -aes-256-cbc -k $_password`
+    [ $(openssl version | grep -oh 'OpenSSL 1\.\S*' | cut -d" " -f 2 | cut -d"." -f2) -ge 1 ] && _param="-pbkdf2 -iter 100000" || _param=""
+    result=`echo $2 | openssl enc -a -d -aes-256-cbc $_param -k $_password`
     if [ $? -ne 0 ]
     then
         exit 1
@@ -55,7 +59,7 @@ check_param(){
 
 get_pubkey(){
     show_info "Get public key"
-    [ -n "${CIPHER_PUB}" ] && KEY_FROM='cipher' || KEY_FROM="stdin"
+    [ KEY_FROM="cipher" -a -n "${CIPHER_PUB}" ] && KEY_FROM='cipher' || KEY_FROM="stdin"
     if [ "${KEY_FROM}" = "stdin" ]
     then
         show_info "Please paste PUBLIC KEY of $_USER below "
@@ -157,13 +161,24 @@ show_usage(){
 set_text_color
 
 # seaky_rsa_openssh
-CIPHER_PUB="
+CIPHER_PUB_1_0="
 U2FsdGVkX1+7hmdKPKJQ0olobZUYk44CZ7ZQwx2fkh34uynJclnODzRU6y5XuxeP
 EXIRZuwByrv3ICglCWu65nlOUGZ9LUkYC+amuVo58zgunHWG5cU+IB2pju3dfXLX
 tmP8WBQztL5aJ2PHTQkoy5GvzV42U4MnN4gt5TrvgfaHRbS2MnlSVtnMGg2pszfN
 K1jOLFox+4frW03roqsP9Q0iiqyQ6si7sCte9ATin0I2zMjIvmOB4pO+egtyI1mR
 lwGffcvywQcOool9+pZA/nnl42s4XQUFR7JikJZEnlJnmvdJiMoG5Kwq6TPsr+wh
 "
+
+CIPHER_PUB_1_1="
+U2FsdGVkX18n3z3OPUigcjmIrFx6Ia5x5VjViMUNGTMMGsfx2E6JNIVDpct0y5SU
+HbTO0B1lxmdjrQgb+88/Wr7MJTSMAmxxWLR9DTqnag0vn6eYCiM9LdJb6N10qlMB
+wKMXBVJx6T9p8iY5wNe3/pPp2l0hmgiAFMWaVCU1z8d6UER3rxJfX9BAIW1Ouiui
+I7Mu29Y+M3sPlbZJ0PqD/aDeOV+zaLXUjtLK9043XwFOEVD+a9CBJzsefR8Q4vWr
+I2pBbmysS3aAuGeIzeaOtx+BaQ3O6lckoQi0Bl6LLs0RAdkq3a1baDE/QX3LZ/7a
+"
+
+[ $(openssl version | grep -oh 'OpenSSL 1\.\S*' | cut -d" " -f 2 | cut -d"." -f2) -ge 1 ] && CIPHER_PUB=$CIPHER_PUB_1_1 || CIPHER_PUB=$CIPHER_PUB_1_0
+
 CIPHER_PUB=`merge_line $CIPHER_PUB`
 
 FLAG_SET_SUDO=false
