@@ -5,6 +5,25 @@
 # windows https://seaky.lanzous.com/iQLAEje9xyj
 #
 
+# assure to fetch source file
+GITHUB_MIRROR=${GITHUB_MIRROR:-https://github.com}
+
+if [ ! $SK_SOURCE ]; then
+    i=${WEB_RETRY:-10}
+    while [ $i -gt 0 ]; do
+        i=$(( $i - 1 ))
+        source <(wget --no-check-certificate -qO - ${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/func.sh)
+        [ $SK_SOURCE ] && break
+    done
+fi
+if [ ! $SK_SOURCE ]; then
+    echo source faile
+    exit 1
+fi
+#
+
+show_banner Install npc
+
 ver=v0.26.9
 tarball="linux_amd64_client.tar.gz"
 url="https://github.com/ehang-io/nps/releases/download/${ver}/${tarball}"
@@ -23,9 +42,9 @@ cd "$temp_dir"
 
 tar zxf $tarball
 
-[ -f 'npc' ] && sudo ./npc install $params
+[ -f 'npc' ] && $SUDO ./npc install $params
 cd ..
-sudo npc start
+$SUDO npc start
 echo "Install done"
 
 

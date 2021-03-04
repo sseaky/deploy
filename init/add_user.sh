@@ -139,6 +139,11 @@ set_sudo(){
 #}
 
 show_hint(){
+    if [ $USE_PWD ]; then
+        show_info "Need to set password for $_USER, random string: `head -c 32 /dev/urandom | base64 | cut -b 1-12`"
+        echo "    sudo passwd $_USER"
+        echo
+    fi
     show_info "For further setup"
     echo "    sudo su - ${_USER}"
     echo "    bash <(wget --no-check-certificate -qO - ${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/init_user.sh)"
@@ -148,6 +153,7 @@ show_hint(){
 show_usage(){
     echo "Usage:  sudo bash add_user.sh -u <new_user> [-d] [-s]"
     echo "    -u <new_user>"
+    echo "    -p, use password"
     echo "    -c, read public key from stdin"
     echo "    -d, read public key from cipher in script"
     echo "    -s, set sudo privilege"
@@ -181,19 +187,19 @@ I2pBbmysS3aAuGeIzeaOtx+BaQ3O6lckoQi0Bl6LLs0RAdkq3a1baDE/QX3LZ/7a
 
 CIPHER_PUB=`merge_line $CIPHER_PUB`
 
-FLAG_SET_SUDO=false
 FLAG_ZSH=false
 KEY_FROM="stdin"
 
-while getopts 'u:cdsm:e' opt
+while getopts 'u:pcdsm:e' opt
 do
     case $opt in
-    u) _USER="$OPTARG" ;;
-    c) KEY_FROM="stdin" ;;
-    d) KEY_FROM="cipher" ;;
-    s) FLAG_SET_SUDO=true ;;
-    m) COMMENT="$OPTARG" ;;
-    e) encrypt ;;
+        u) _USER="$OPTARG" ;;
+        p) USE_PWD=true ;;
+        c) KEY_FROM="stdin" ;;
+        d) KEY_FROM="cipher" ;;
+        s) FLAG_SET_SUDO=true ;;
+        m) COMMENT="$OPTARG" ;;
+        e) encrypt ;;
     *)
         show_usage
     esac
@@ -201,9 +207,8 @@ done
 
 show_banner Add user $_USER
 check_param
-get_pubkey
 _adduser
-append_key
-$FLAG_SET_SUDO && [ "$_USER" != "root" ] && set_sudo
+[ ! $USE_PWD ] && get_pubkey && append_key
+[ $FLAG_SET_SUDO ] && [ "$_USER" != "root" ] && set_sudo
 #set_vim
 show_hint
