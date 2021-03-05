@@ -2,7 +2,7 @@
 # @Author: Seaky
 # @Date:   2018-08-15 17:23:12
 # @Last Modified BY:   Seaky
-# @Last Modified time: 2020-06-08 16:26:33
+# @Last Modified time: 2021-03-04 19:29:13
 
 # source <(wget --no-check-certificate -qO - ${GITHUB_MIRROR:-https://github.com}/sseaky/deploy/raw/master/init/tmux/tmux.sh)
 #
@@ -28,13 +28,16 @@ check_pkg tmux
 check_pkg git
 
 
-[[ ! -d ~/.tmux ]] && git clone https://github.com/gpakosz/.tmux.git && ln -s -f ~/.tmux/.tmux.conf && cp ~/.tmux/.tmux.conf.local .
+[[ ! -d ~/.tmux ]] && git clone ${GITHUB_MIRROR}/gpakosz/.tmux.git && ln -s -f ~/.tmux/.tmux.conf && cp ~/.tmux/.tmux.conf.local .
 # [[ -e ~/.tmux.conf.local && ! $(grep "^set -g mode-mouse on" ~/.tmux.conf.local) ]] && cat >> ~/.tmux.conf.local << EOF
 # SET -g MODE-mouse ON
 # SET -g mouse-resize-pane ON
 # SET -g mouse-SELECT-pane ON
 # SET -g mouse-SELECT-window ON
 # EOF
+
+[[ -e ~/.tmux.conf ]] && sed -ie "s/^source -q/source-file/" .tmux.conf
+[[ -e ~/.tmux.conf ]] && sed -ie "s/^set -s focus-events/# set -s focus-events/" .tmux.conf
 
 # disable C-a
 sed -ir 's/^set -g prefix2 C-a/# set -g prefix2 C-a/;s/^bind C-a send-prefix -2/# bind C-a send-prefix -2/' ~/.tmux.conf
@@ -66,7 +69,7 @@ cfg='run-shell ~/.tmux/plugins/tmux-resurrect/resurrect.tmux'
 cd ~/.tmux
 [[ ! -d plugins ]] && mkdir plugins
 cd plugins
-[[ ! -d tmux-resurrect ]] && git clone https://${GITHUB_MIRROR}/tmux-plugins/tmux-resurrect.git
+[[ ! -d tmux-resurrect ]] && git clone ${GITHUB_MIRROR}/tmux-plugins/tmux-resurrect.git
 [[ -e ~/.tmux.conf.local && ! $(grep "^${cfg}" ~/.tmux.conf.local) ]] && cat >> ~/.tmux.conf.local << EOF
 $cfg
 EOF
