@@ -19,25 +19,30 @@ if [ ! $SK_SOURCE ]; then
 fi
 #
 
-for x in $*; do
-    case $x in
+[ $INIT_DEBUG ] && X="-x" || X=""
+
+for module in $*; do
+    case $module in
         aliyun)
-            bash <(web_get - ${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/source/aliyun.sh)
+            bash $X <(web_get - ${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/source/aliyun.sh)
             ;;
         vim)
-            bash <(web_get - ${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/vim/vim.sh)
+            bash $X <(web_get - ${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/vim/vim.sh)
             ;;
         zsh)
-            bash <(web_get - ${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/zsh/zsh_inst.sh)
+            bash $X <(web_get - ${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/zsh/zsh_inst.sh)
             ;;
         bashit)
-            bash <(web_get - ${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/bash/bashit.sh)
+            bash $X <(web_get - ${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/bash/bashit.sh)
             ;;
         tmux)
-            bash <(web_get - ${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/tmux/tmux.sh)
+            bash $X <(web_get - ${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/tmux/tmux.sh)
             ;;
         pyenv)
-            bash <(web_get - ${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/pyenv/pyenv.sh)
+            bash $X <(web_get - ${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/pyenv/pyenv.sh)
+            ;;
+        npc)
+            bash $X <(web_get - ${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/npc/npc_install.sh)
             ;;
         *)
             echo $x is illegal

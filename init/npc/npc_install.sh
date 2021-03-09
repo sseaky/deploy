@@ -26,7 +26,7 @@ show_banner Install npc
 
 ver=v0.26.9
 tarball="linux_amd64_client.tar.gz"
-url="https://github.com/ehang-io/nps/releases/download/${ver}/${tarball}"
+url="${GITHUB_MIRROR}/ehang-io/nps/releases/download/${ver}/${tarball}"
 temp_dir="npc_${ver}"
 
 echo Start install npc

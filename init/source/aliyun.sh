@@ -31,8 +31,10 @@ if [ "$ID" = "ubuntu" ]; then
     if `grep -v ^# /etc/apt/sources.list | grep aliyun >> /dev/null`; then
         show_info "aliyun has been installed"
     else
-        mkdir -p /etc/apt/sources.list.backup
-        mv /etc/apt/sources.list /etc/apt/sources.list.backup/
+        $SUDO mkdir -p /etc/apt/sources.list.backup
+        $SUDO mv /etc/apt/sources.list /etc/apt/sources.list.backup/
+        $SUDO touch /etc/apt/sources.list
+        $SUDO chmod 666 /etc/apt/sources.list
         cat > /etc/apt/sources.list <<-EOF
 deb http://mirrors.aliyun.com/ubuntu/ ${UBUNTU_CODENAME} main restricted universe multiverse
 deb-src http://mirrors.aliyun.com/ubuntu/ ${UBUNTU_CODENAME} main restricted universe multiverse
@@ -70,9 +72,9 @@ elif [ "$ID" = "centos" ]; then
     if `grep -v ^# /etc/yum.repos.d/*.repo | grep aliyun >> /dev/null`; then
         show_info "aliyun has been installed"
     else
-        mkdir -p /etc/yum.repos.d/repo.backup
-        mv /etc/yum.repos.d/*.repo /etc/yum.repos.d/repo.backup/
-        wget -O /etc/yum.repos.d/aliyun.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+        $SUDO mkdir -p /etc/yum.repos.d/repo.backup
+        $SUDO mv /etc/yum.repos.d/*.repo /etc/yum.repos.d/repo.backup/
+        $SUDO wget -O /etc/yum.repos.d/aliyun.repo http://mirrors.aliyun.com/repo/Centos-7.repo
         show_info Install aliyun done.
     fi
 else
