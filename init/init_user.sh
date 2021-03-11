@@ -44,6 +44,9 @@ for module in $*; do
         npc)
             bash $X <(web_get - ${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/npc/npc_install.sh)
             ;;
+        frp)
+            bash $X <(web_get - ${GITHUB_MIRROR}/sseaky/frp-onekey/raw/main/frp_onekey.sh)
+            ;;
         *)
             echo $x is illegal
             ;;

@@ -1,7 +1,7 @@
 # @Author: Seaky
 # @Date:   2020-06-12 17:53:48
 # @Last Modified by:   Seaky
-# @Last Modified time: 2020-06-15 14:27:49
+# @Last Modified time: 2021-03-09 18:27:46
 #
 # bash <(wget --no-check-certificate -O - https://${GITHUB_MIRROR:-github.com}/sseaky/deploy/raw/master/init/bash/bashit.sh)
 
@@ -26,7 +26,7 @@ show_banner Bash-it
 
 check_pkg git
 
-git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it
+git clone --depth=1 ${GITHUB_MIRROR}/Bash-it/bash-it.git ~/.bash_it
 ~/.bash_it/install.sh 
 
 sed -ir 's/bobby/pure/' ~/.bashrc
