@@ -48,7 +48,7 @@ for module in $*; do
             bash $X <(web_get - ${GITHUB_MIRROR}/sseaky/frp-onekey/raw/main/frp_onekey.sh)
             ;;
         *)
-            echo $x is illegal
+            echo $module is illegal
             ;;
     esac
 done

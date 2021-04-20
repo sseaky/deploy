@@ -47,6 +47,7 @@ mkdir $cachedir
 
 $SUDO $INSTALL libssl1.0-dev zlib1g-dev
 $SUDO bash -c "$INSTALL zlib* libffi-devel openssl-devel"
+$SUDO bash -c "$INSTALL zlib* libffi-dev openssl-devel"
 
 
 echo '

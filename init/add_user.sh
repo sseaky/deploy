@@ -59,7 +59,7 @@ check_param(){
 
 get_pubkey(){
     show_info "Get public key"
-    [ KEY_FROM="cipher" -a -n "${CIPHER_PUB}" ] && KEY_FROM='cipher' || KEY_FROM="stdin"
+    # [ KEY_FROM="cipher" -a -n "${CIPHER_PUB}" ] && KEY_FROM='cipher' || KEY_FROM="stdin"
     if [ "${KEY_FROM}" = "stdin" ]
     then
         show_info "Please paste PUBLIC KEY of $_USER below "
