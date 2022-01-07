@@ -12,7 +12,7 @@ need **sudo** right if require apps installation, edit /etc/sudoers.d/seaky
 
 ```bash
 # export GITHUB_RETRY=10
-# export GITHUB_MIRROR="https://hub.fastgit.org"
+# export GITHUB_MIRROR="https://github.com.cnpmjs.org"
 bash <(wget --no-check-certificate -qO - ${GITHUB_MIRROR:-https://github.com}/sseaky/deploy/raw/master/init/init_user.sh) [module]
 ```
 
@@ -21,7 +21,7 @@ bash <(wget --no-check-certificate -qO - ${GITHUB_MIRROR:-https://github.com}/ss
 ## Add user
 ```bash
 # export GITHUB_RETRY=10
-# export GITHUB_MIRROR="https://hub.fastgit.org"
+# export GITHUB_MIRROR="https://github.com.cnpmjs.org"
 sudo -E bash -c "bash <(wget -qO - ${GITHUB_MIRROR:-https://github.com}/sseaky/deploy/raw/master/init/add_user.sh) -u <new_user> [-s]"
 ```
 

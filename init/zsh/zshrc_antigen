@@ -54,7 +54,10 @@ else
     echo "...${PWD1:${#PWD1}-${pwd_limit}+3:${pwd_limit}-3}"
 fi
 }
-export PROMPT='%{$fg[yellow]%}%n%{$reset_color%}@%{$fg[cyan]%}%m%{$reset_color%} %{$fg[blue]%}$(short_pwd)%{$reset_color%} $(git_prompt_info)'
+
+[ $UID -eq 0 ] && name_color="red" || name_color="yellow"
+export PROMPT='%{$fg[$name_color]%}%n%{$reset_color%}@%{$fg[cyan]%}%m%{$reset_color%} %{$fg[blue]%}$(short_pwd)%{$reset_color%} $(git_prompt_info)'
+
 # export PROMPT='%{$fg[yellow]%}%n%{$reset_color%}@%{$fg[cyan]%}%m%{$reset_color%} %{$fg[blue]%}%1|%~%{$reset_color%} $(git_prompt_info)'
 
 # server prompt
