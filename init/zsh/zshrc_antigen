@@ -92,4 +92,8 @@ bindkey -s "^[Om" "-"
 bindkey -s "^[Oj" "*"
 bindkey -s "^[Oo" "/"
 
+# zsh-autosuggestions
+#bindkey '^b'   backward-word        
+bindkey '^f'   forward-word
+
 [[ -f ~/.zsh_alias ]] && source ~/.zsh_alias

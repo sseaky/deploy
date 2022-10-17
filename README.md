@@ -22,8 +22,19 @@ bash <(wget --no-check-certificate -qO - ${GITHUB_MIRROR:-https://github.com}/ss
 ```bash
 # export GITHUB_RETRY=10
 # export GITHUB_MIRROR="https://github.com.cnpmjs.org"
-sudo -E bash -c "bash <(wget -qO - ${GITHUB_MIRROR:-https://github.com}/sseaky/deploy/raw/master/init/add_user.sh) -u <new_user> [-s]"
+sudo -E bash -c "bash <(wget -qO - ${GITHUB_MIRROR:-https://github.com}/sseaky/deploy/raw/master/init/misc/add_user.sh) -u <new_user> [-s]"
 ```
+
+
+
+## Add iptables-apply
+
+```bash
+which iptables-apply || ( wget https://raw.githubusercontent.com/sseaky/deploy/master/init/misc/iptables-apply && chmod +x iptables-apply && mv iptables-apply /usr/sbin/ )
+
+iptables-save > /etc/network/iptables.up.rules && vi /etc/network/iptables.up.rules && iptables-apply && sleep 1 && iptables -nvL && echo '\n\n' && iptables -nvL -t nat
+```
+
 
 
 ## Proxy
