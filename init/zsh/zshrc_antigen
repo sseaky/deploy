@@ -56,7 +56,10 @@ fi
 }
 
 [ $UID -eq 0 ] && name_color="red" || name_color="yellow"
-export PROMPT='%{$fg[$name_color]%}%n%{$reset_color%}@%{$fg[cyan]%}%m%{$reset_color%} %{$fg[blue]%}$(short_pwd)%{$reset_color%} $(git_prompt_info)'
+
+HOSTNAME=''
+export PROMPT='%{$fg[$name_color]%}%n%{$reset_color%}@%{$fg[cyan]%}${HOSTNAME:-`hostname`}%{$reset_color%} %{$fg[blue]%}$(short_pwd)%{$reset_color%} $(git_prompt_info)'
+# export PROMPT='%{$fg[$name_color]%}%n%{$reset_color%}@%{$fg[cyan]%}%m%{$reset_color%} %{$fg[blue]%}$(short_pwd)%{$reset_color%} $(git_prompt_info)'
 
 # export PROMPT='%{$fg[yellow]%}%n%{$reset_color%}@%{$fg[cyan]%}%m%{$reset_color%} %{$fg[blue]%}%1|%~%{$reset_color%} $(git_prompt_info)'
 
