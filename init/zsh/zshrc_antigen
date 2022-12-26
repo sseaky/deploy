@@ -58,10 +58,13 @@ fi
 [ $UID -eq 0 ] && name_color="red" || name_color="yellow"
 
 HOSTNAME=''
-export PROMPT='%{$fg[$name_color]%}%n%{$reset_color%}@%{$fg[cyan]%}${HOSTNAME:-`hostname`}%{$reset_color%} %{$fg[blue]%}$(short_pwd)%{$reset_color%} $(git_prompt_info)'
-# export PROMPT='%{$fg[$name_color]%}%n%{$reset_color%}@%{$fg[cyan]%}%m%{$reset_color%} %{$fg[blue]%}$(short_pwd)%{$reset_color%} $(git_prompt_info)'
+HOSTNAME=${HOSTNAME:-`hostname`}
+PUBIP=`curl -4 ip.sb 2> /dev/null || curl -4 ifconfig.net 2> /dev/null`
+[ -n "$PUBIP" ] && HOSTNAME="${HOSTNAME}_${PUBIP}"
 
-# export PROMPT='%{$fg[yellow]%}%n%{$reset_color%}@%{$fg[cyan]%}%m%{$reset_color%} %{$fg[blue]%}%1|%~%{$reset_color%} $(git_prompt_info)'
+export PROMPT='%{$fg[$name_color]%}%n%{$reset_color%}@%{$fg[cyan]%}${HOSTNAME}%{$reset_color%} %{$fg[blue]%}$(short_pwd)%{$reset_color%} $(git_prompt_info)'
+# export PROMPT='%{$fg[$name_color]%}%n%{$reset_color%}@%{$fg[cyan]%}${HOSTNAME}%{$reset_color%} %{$fg[blue]%}$(short_pwd)%{$reset_color%} $(git_prompt_info)'
+# export PROMPT='%{$fg[yellow]%}%n%{$reset_color%}@%{$fg[cyan]%}${HOSTNAME}%{$reset_color%} %{$fg[blue]%}%1|%~%{$reset_color%} $(git_prompt_info)'
 
 # server prompt
 # export PROMPT='%{$fg[yellow]%}%n%{$reset_color%}@%{$fg[cyan]%}%{$bg[red]%}$(short_pwd)%{$reset_color%} %{$fg[blue]%}%1|%~%{$reset_color%} $(git_prompt_info)'
