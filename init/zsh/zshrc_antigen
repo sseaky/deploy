@@ -59,7 +59,7 @@ fi
 
 HOSTNAME=''
 HOSTNAME=${HOSTNAME:-`hostname`}
-PUBIP=`curl -4 ip.sb 2> /dev/null || curl -4 ifconfig.net 2> /dev/null`
+PUBIP=`curl -4 --connect-timeout 5 ifconfig.me 2> /dev/null || curl -4 --connect-timeout 5 ipget.net 2> /dev/null`
 [ -n "$PUBIP" ] && HOSTNAME="${HOSTNAME}_${PUBIP}"
 
 export PROMPT='%{$fg[$name_color]%}%n%{$reset_color%}@%{$fg[cyan]%}${HOSTNAME}%{$reset_color%} %{$fg[blue]%}$(short_pwd)%{$reset_color%} $(git_prompt_info)'
@@ -74,6 +74,9 @@ export RPROMPT='%{$fg_bold[yellow]%}%?%{$reset_color%} %{$fg[red]%}%*%{$reset_co
 export PATH=$PATH:/sbin:/usr/sbin
 export TERM=xterm-256color
 export LANG=C.UTF-8
+export VISUAL=vim
+export EDITOR=vim
+
 
 # Fix numeric keypad
 # 0 . Enter
