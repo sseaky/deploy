@@ -55,27 +55,21 @@ else
 fi
 }
 
-[ $UID -eq 0 ] && name_color="red" || name_color="yellow"
-
 
 # set hostname
+HOSTNAME=`hostname`
+HOSTNAME=${HOSTNAME:-`hostname`}
 extract_ip(){
     curl -4 --connect-timeout 5 $1 2>> /dev/null | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"
 }
 PUBIP=`extract_ip ifconfig.net || extract_ip ifconfig.me || extract_ip ipget.net`
-HOSTNAME=`hostname`
-HOSTNAME=${HOSTNAME:-`hostname`}
 [ -n "$PUBIP" ] && HOSTNAME="${HOSTNAME}_${PUBIP}"
-
+[ $UID -eq 0 ] && name_color="red" || name_color="yellow"
+# set prompt
 export PROMPT='%{$fg[$name_color]%}%n%{$reset_color%}@%{$fg[cyan]%}${HOSTNAME}%{$reset_color%} %{$fg[blue]%}$(short_pwd)%{$reset_color%} $(git_prompt_info)'
-# export PROMPT='%{$fg[$name_color]%}%n%{$reset_color%}@%{$fg[cyan]%}${HOSTNAME}%{$reset_color%} %{$fg[blue]%}$(short_pwd)%{$reset_color%} $(git_prompt_info)'
-# export PROMPT='%{$fg[yellow]%}%n%{$reset_color%}@%{$fg[cyan]%}${HOSTNAME}%{$reset_color%} %{$fg[blue]%}%1|%~%{$reset_color%} $(git_prompt_info)'
-
-# server prompt
-# export PROMPT='%{$fg[yellow]%}%n%{$reset_color%}@%{$fg[cyan]%}%{$bg[red]%}$(short_pwd)%{$reset_color%} %{$fg[blue]%}%1|%~%{$reset_color%} $(git_prompt_info)'
-
 export RPROMPT='%{$fg_bold[yellow]%}%?%{$reset_color%} %{$fg[red]%}%*%{$reset_color%}'
 
+# 
 export PATH=$PATH:/sbin:/usr/sbin
 export TERM=xterm-256color
 export LANG=C.UTF-8
