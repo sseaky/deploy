@@ -2,6 +2,7 @@ alias ta='tmux a'
 # tmux new -s nohup/shell
 alias ts='tmux a -t shell'
 alias tn='tmux a -t nohup'
+alias history='history -i'
 
 # set proxy
 _proxy='http://127.0.0.1:52321'
