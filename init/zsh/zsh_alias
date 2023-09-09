@@ -8,5 +8,5 @@ alias history='history -i'
 _proxy='http://127.0.0.1:52321'
 alias px="https_proxy=$_proxy http_proxy=$_proxy "
 
-pip3install='pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple '
+alias pip3install='pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple '
 
