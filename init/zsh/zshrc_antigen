@@ -101,10 +101,9 @@ HOSTNAME=${HOSTNAME:-`hostname`}
 extract_ip(){
     curl -4 --connect-timeout 5 $1 2>> /dev/null | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"
 }
-PUBIP=`extract_ip whois.pconline.com.cn || extract_ip https://ifconfig.me || extract_ip https://ipify.org`
+PUBIP=`extract_ip https://whois.pconline.com.cn/ipJson.jsp || extract_ip https://ifconfig.me || extract_ip https://ipify.org | head -1`
 [ -n "$PUBIP" ] && HOSTNAME="${HOSTNAME}_${PUBIP}"
 [ $UID -eq 0 ] && name_color="red" || name_color="yellow"
 # set prompt
 export PROMPT='%{$fg[$name_color]%}%n%{$reset_color%}@%{$fg[cyan]%}${HOSTNAME}%{$reset_color%} %{$fg[blue]%}$(short_pwd)%{$reset_color%} $(git_prompt_info)'
 # export RPROMPT='%{$fg_bold[yellow]%}%?%{$reset_color%} %{$fg[red]%}%*%{$reset_color%}'
-
