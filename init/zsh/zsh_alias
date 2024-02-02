@@ -3,10 +3,12 @@ alias ta='tmux a'
 alias ts='tmux a -t shell'
 alias tn='tmux a -t nohup'
 alias history='history -i'
+alias ll='ls -lh --time-style="+%Y.%m.%d %H:%M:%S"'
 
 # set proxy
 _proxy='http://127.0.0.1:52321'
 alias px="https_proxy=$_proxy http_proxy=$_proxy "
+alias pc="proxychains -q "
 
 alias pip3install='pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple '
 
