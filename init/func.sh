@@ -63,7 +63,7 @@ check_os(){
     source /etc/os-release
     if [ $ID = "ubuntu" -o $ID = "debian" ]; then
         INSTALL="apt install -y "
-    elif [ $ID = "centos" ]; then
+    elif [ $ID = "centos" -o $ID = "anolis" ]; then
         INSTALL="yum install -y "
     else
         show_error Can\'t detect the os with $f
