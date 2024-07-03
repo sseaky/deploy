@@ -154,3 +154,20 @@ decrypt(){
     fi
     echo $result
 }
+
+apt_update_in_1day(){
+    # 获取上次更新的时间
+    last_update=$(stat -c %Y /var/lib/apt/periodic/update-success-stamp)
+    current_time=$(date +%s)
+
+    # 定义一天的秒数
+    day_in_seconds=$((60*60*24))
+
+    # 如果距离上次更新不到一天时间，则不更新
+    if (( current_time - last_update < day_in_seconds )); then
+        echo "上次更新在一天以内，不执行更新操作"
+    else
+        echo "上次更新超过一天，执行更新操作"
+        apt-get update
+    fi
+}
