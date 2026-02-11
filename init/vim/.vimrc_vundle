@@ -1,0 +1,49 @@
+" @Author: Seaky
+" @Modified: 2026-02-11
+" 使用说明: 终端运行 vim +PluginInstall +qall 进行安装
+
+" --- Vundle 初始化 ---
+set nocompatible              " 必须设置，不兼容 vi 模式
+filetype off                  " 必须设置，先关闭文件类型检测
+
+" 设置运行时路径以包含 Vundle
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" 让 Vundle 管理 Vundle (必须)
+Plugin 'VundleVim/Vundle.vim'
+
+" --- 1. 界面与状态栏增强 ---
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+" 状态栏始终显示
+set laststatus=2
+
+" --- 2. 开发辅助工具 ---
+" 代码注释工具: <leader>cc 注释, <leader>cu 反注释
+Plugin 'scrooloose/nerdcommenter'
+let g:NERDSpaceDelims = 1
+
+" 目录树工具: F10 开启/关闭
+Plugin 'scrooloose/nerdtree'
+noremap <F10> :NERDTreeToggle<CR>
+
+" 符号包围工具: ds(删除)/cs(修改)/ys(添加) 引号、括号等
+Plugin 'tpope/vim-surround'
+
+" --- 3. 语法支持 ---
+" Jinja2 模板语法高亮
+Plugin 'Glench/Vim-Jinja2-Syntax'
+
+" --- 4. 其它工具 (如需启用可取消注释) ---
+" Plugin 'L9'
+" Plugin 'git://git.wincent.com/command-t.git'
+
+" --- 结束配置 ---
+call vundle#end()            
+filetype plugin indent on    " 必须，插件加载完后再开启
+
+" 常用命令参考：
+" :PluginList       - 列出已配置的插件
+" :PluginInstall    - 安装插件
+" :PluginClean      - 清理不再使用的插件

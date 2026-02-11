@@ -1,92 +1,102 @@
 #!/usr/bin/env bash
 # @Author: Seaky
-# @Date:   2019-06-27 10:28:19
-# @Last Modified by:   Seaky
-# @Last Modified time: 2020-06-15 14:11:49
+# @Modified: 2026-02-11
 
-# bash <(wget --no-check-certificate -O - ${GITHUB_MIRROR:-github.com}/sseaky/deploy/raw/master/init/vim/vim.sh) -p
-
-# assure to fetch source file
 GITHUB_MIRROR=${GITHUB_MIRROR:-https://github.com}
+RAW_URL="${GITHUB_MIRROR}/sseaky/deploy/raw/master/init"
 
-if [ ! $SK_SOURCE ]; then
-    i=${WEB_RETRY:-10}
-    while [ $i -gt 0 ]; do
-        i=$(( $i - 1 ))
-        source <(wget --no-check-certificate -qO - ${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/func.sh)
-        [ $SK_SOURCE ] && break
-    done
-fi
-if [ ! $SK_SOURCE ]; then
-    echo source faile
-    exit 1
-fi
-#
+# --- 1. 引用基础函数库 (优先本地) ---
+if [ ! "$SK_SOURCE" ]; then
+    if [ -f "./func.sh" ]; then
+        source ./func.sh
+    elif [ -f "${BASH_SOURCE%/*}/func.sh" ]; then
+        source "${BASH_SOURCE%/*}/func.sh"
+    fi
 
-show_banner Set VIM
+    if [ ! "$SK_SOURCE" ]; then
+        echo "Local func.sh not found, trying remote..."
+        i=${WEB_RETRY:-10}
+        while [ "$i" -gt 0 ]; do
+            ((i--))
+            source <(wget --no-check-certificate -qO - "${RAW_URL}/func.sh")
+            [ "$SK_SOURCE" ] && break
+        done
+    fi
+fi
+
+[ ! "$SK_SOURCE" ] && { echo "Source func.sh failed"; exit 1; }
+
+# --- 2. 探测并获取文件的函数 ---
+smart_get() {
+    local target=$1
+    local remote_url=$2
+    local filename=$(basename "$target")
+    local local_file=""
+
+    [ -f "./$filename" ] && local_file="./$filename"
+    [ -z "$local_file" ] && [ -f "${BASH_SOURCE%/*}/$filename" ] && local_file="${BASH_SOURCE%/*}/$filename"
+
+    if [ -n "$local_file" ]; then
+        show_info "Found local $filename, copying..."
+        cp "$local_file" "$target"
+    else
+        show_info "$filename not found locally, downloading..."
+        web_get "$target" "$remote_url"
+    fi
+}
+
+# --- 3. 开始流程 ---
+show_banner "Set VIM Configuration"
 
 check_pkg vim
 check_pkg git
 
-
-while getopts "p" arg
-do
+# 参数解析 
+install_vundle=false
+while getopts "p" arg; do
     case $arg in
-         p)
-            install_vundle=true
-            ;;
-         ?)
-        echo "unkonw argument"
-    exit 1
-    ;;
+        p) install_vundle=true ;;
+        *) echo "Unknown argument"; exit 1 ;;
     esac
 done
 
-export SERVER="${GITHUB_MIRROR}/sseaky/deploy/raw/master/init/vim"
+export SERVER="${RAW_URL}/vim"
 
-# common install
-web_get ~/.vimrc $SERVER/vimrc_common
-if [ ! -s ~/.vimrc ]; then
-    echo "~/.vimrc is not valid"
-    exit 1
+# 获取主配置 .vimrc
+smart_get ~/.vimrc "${SERVER}/.vimrc"
+[ ! -s ~/.vimrc ] && { show_error "~/.vimrc download failed"; exit 1; }
+
+# 修正 vi 软链接 (处理 CentOS/RHEL 差异) [cite: 22]
+VI_BIN=$(command -v vi)
+VIM_BIN=$(command -v vim)
+if [ -z "$VI_BIN" ]; then
+    $SUDO ln -s "$VIM_BIN" /usr/bin/vi
+elif [ ! -L "$VI_BIN" ]; then
+    show_info "Relinking $VI_BIN to vim"
+    $SUDO mv "$VI_BIN" "${VI_BIN}.save"
+    $SUDO ln -s "$VIM_BIN" "$VI_BIN"
 fi
 
-# link vim
-vi_path=$(which vi)
-if [ -z "$vi_path" ]; then
-    $SUDO ln -s $(which vim) /bin/vi
-elif [ ! -L $vi_path ]; then
-    echo "$vi_path is a bin file, relink vi to vim"
-    $SUDO mv $vi_path ${vi_path}.save
-    $SUDO ln -s $(which vim) $vi_path
-fi
-
-# vundle
-if [ $install_vundle ]; then
-    [[ -d ~/.vim ]] || mkdir .vim
-    [ -d ~/.vim/bundle/Vundle.vim ] && echo "~/.vim/bundle/Vundle.vim is exist" || \
-        git clone ${GITHUB_MIRROR}/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-    web_get ~/.vimrc_vundle $SERVER/vimrc_vundle
-    if [ ! -s ~/.vimrc_vundle ]; then
-        echo "~/.vimrc_vundle is not valid"
-        exit 1
+# Vundle 插件管理 [cite: 25, 26]
+if [ "$install_vundle" = true ]; then
+    [[ -d ~/.vim ]] || mkdir -p ~/.vim
+    VUNDLE_DIR="$HOME/.vim/bundle/Vundle.vim"
+    
+    if [ ! -d "$VUNDLE_DIR" ]; then
+        show_info "Cloning Vundle..."
+        git clone "${GITHUB_MIRROR}/VundleVim/Vundle.vim.git" "$VUNDLE_DIR"
     fi
-    sed -ir "s#/HOME/#${HOME}/#" ~/.vimrc_vundle
-    sed -ir "s/\" source .vimrc_vundle/source .vimrc_vundle/" ~/.vimrc
 
-    echo "
-    Install
-        Launch vim and run :PluginInstall
-        To install from command line: vim +PluginInstall +qall
+    # 获取插件配置 .vimrc_vundle
+    smart_get ~/.vimrc_vundle "${SERVER}/.vimrc_vundle"
+    
+    # 路径与配置激活 
+    sed -i "s#/HOME/#${HOME}/#g" ~/.vimrc_vundle
+    # 取消 .vimrc 中对 vundle 的引用注释
+    sed -i 's/^" source ~\/.vimrc_vundle/source ~\/.vimrc_vundle/' ~/.vimrc
 
-    Remove
-        Remove Plugin in .vimrc, run :BundleClean
-
-    Other
-        BundleUpdate/BundleList/BundleSearch
-    "
-
+    show_info "Installing Vim Plugins..."
     vim +PluginInstall +qall
 fi
 
-
+show_info "VIM configuration completed!"

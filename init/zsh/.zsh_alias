@@ -8,7 +8,7 @@ alias psgrep='ps -ef | grep -v grep'
 
 
 # set proxy
-_proxy='http://127.0.0.1:52321'
+_proxy='http://127.0.0.1:10809'
 alias px="https_proxy=$_proxy http_proxy=$_proxy "
 alias pc="proxychains -q "
 
