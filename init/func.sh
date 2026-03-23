@@ -24,7 +24,7 @@ check_os(){
             INSTALL="apt install -y "
             UPDATE_CMD="apt update"
             ;;
-        "centos"|"anolis"|"rhel"|"rocky"|"almalinux"|"fedora")
+        "centos"|"anolis"|"rhel"|"rocky"|"almalinux"|"fedora"|"openeuler")
             # 自动选择包管理器：优先 dnf
             if command -v dnf >/dev/null 2>&1; then
                 INSTALL="dnf install -y "

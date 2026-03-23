@@ -28,7 +28,7 @@ set shiftwidth=4      " 自动缩进宽度
 set softtabstop=4
 set expandtab         " 将 Tab 转为空格
 set smarttab
-set si                " 智能缩进
+" set si                " 智能缩进
 
 set showmatch         " 高亮匹配的括号
 set hlsearch          " 高亮搜索结果
